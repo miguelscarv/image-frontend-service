@@ -1,0 +1,7 @@
+grpc==1.0.0
+grpc_reflection==1.0.0
+grpcio==1.56.0
+grpcio_reflection==1.56.0
+Pillow==10.0.0
+protobuf==4.23.4
+streamlit==1.24.1

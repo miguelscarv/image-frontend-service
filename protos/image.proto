@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+/* 
+* Service that loads and stores images
+* in directories in the frontend component 
+*/
+service ImageServerService {
+    rpc GetImageStream(Empty) returns (stream Image);
+    rpc PostImage(Image) returns (Empty);
+}
+
+/*
+ * Image to analyse
+ * param data: bytes of the image file
+ *             encoded in some image format
+ */
+message Image {
+    bytes data = 1;
+    string name = 2;
+}
+
+/* 
+* Empty message that the orquestrator sends to the server to get images
+* and that the server responds with when receiving images
+*/
+message Empty {}
