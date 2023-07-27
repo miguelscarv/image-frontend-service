@@ -68,6 +68,9 @@ class ImageServer(image_pb2_grpc.ImageServerServiceServicer):
         current_time = str(time.time()).replace(".", "")[:13]
         os.mkdir(self.output_dir+"/"+current_time)
 
+        if name == "":
+            name = current_time
+
         with open(self.output_dir+"/"+current_time+"/"+name, "wb") as f:
             f.write(data)
 
