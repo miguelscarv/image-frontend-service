@@ -58,7 +58,7 @@ class ImageServer(image_pb2_grpc.ImageServerServiceServicer):
         for img in imgs:
             with open(new_path+"/"+img, "rb") as f:
                 img_bytes = f.read()
-                yield image_pb2.Image(data=img_bytes, name=img)
+                yield image_pb2.Image(data=img_bytes, name=img, is_last=imgs[-1]==img)
                 logging.info(f" Sent image {img}...")
                 #time.sleep(0.1)
 

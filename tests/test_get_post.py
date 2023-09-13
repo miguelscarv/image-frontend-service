@@ -15,12 +15,13 @@ def display_image(image):
     plt.show()
 
 def flip_image(image):
+    print(image.is_last)
     img = Image.open(io.BytesIO(image.data))
     img = img.transpose(PIL.Image.Transpose.FLIP_LEFT_RIGHT)
     image_bytes = io.BytesIO()
     img.save(image_bytes, format='png')
     image_bytes = image_bytes.getvalue()
-    return image_pb2.Image(data=image_bytes, name=image.name)
+    return image_pb2.Image(data=image_bytes, name=image.name.split(".")[0]+".png")
 
 if __name__ == "__main__":
 
