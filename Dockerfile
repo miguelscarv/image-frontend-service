@@ -62,7 +62,15 @@ COPY --from=builder --chown=${USER}:${GROUP} ${WORKSPACE}/${PROTO_FILE} /
 COPY --from=builder --chown=${USER}:${GROUP} ${WORKSPACE}/*.py ${WORKSPACE}/
 
 # Copy code to workspace
-COPY --chown=${USER}:${GROUP} ${SRC_DIR} ${WORKSPACE}/
+COPY --chown=${USER}:${GROUP} ${SRC_DIR}/. ${WORKSPACE}/
+COPY --chown=${USER}:${GROUP} ${SRC_DIR}/streamlit/. ${WORKSPACE}/streamlit
+COPY --chown=${USER}:${GROUP} ${SRC_DIR}/streamlit/pages/. ${WORKSPACE}/streamlit/pages
+
+RUN mkdir extracted_zip_files
+RUN mkdir received_images
+RUN mkdir zip_received_images
+
+RUN chmod 777 -R ${WORKSPACE}
 
 # Change to non-privileged user
 USER ${USER}
