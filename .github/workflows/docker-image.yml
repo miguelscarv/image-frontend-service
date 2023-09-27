@@ -2,22 +2,19 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: |
-        docker build . --tag my-image-name:$(date +%s)
-        docker login -u shormeneses -p ${{ secrets.DOCKERHUB_PASSWORD }}
-        docker tag my-image-name:$(date +%s) shormeneses/image-frontend:1.0
-        docker push shormeneses/image-frontend:1.0
-
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: |
+          docker build . --tag my-image-name:$(date +%s)
+          docker login -u shormeneses -p ${{ secrets.DOCKER_PASS }}
+          docker tag my-image-name:$(date +%s) shormeneses/image-frontend:1.0
+          docker push shormeneses/image-frontend:1.0
