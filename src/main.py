@@ -9,7 +9,7 @@ logging.basicConfig(
         level=logging.INFO)
 
 logging.info(f"Starting Streamlit server at port {SL_PORT}")
-subprocess.Popen(["streamlit", "run" , "src/streamlit/ZIP_Uploader.py", 
+subprocess.Popen(["streamlit", "run" , "streamlit/ZIP_Uploader.py", 
     "--server.maxUploadSize", "500",
     "--server.port", str(SL_PORT)],
     stdout=subprocess.DEVNULL)
