@@ -16,6 +16,7 @@ and it can be deployed using the command:
 ```
 $  docker run -p 8061:8061 -p 8080:8080 IMAGE
 ```
+The first `-p` is used to expose the 8061 docker port according to AI4EU specs and the second one is for the Streamlit frontend component.
 
 ### Change the following command in `src/main.py` to change max file upload size:
 `--server.maxUploadSize SIZE_WANTED`
