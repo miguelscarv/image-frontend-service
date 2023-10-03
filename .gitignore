@@ -5,3 +5,9 @@ TODO.txt
 /**/__pycache__/
 /**/*pb2*
 venv/
+data/
+data.zip
+extracted_zip_files/
+transform_dataset.py
+smaller_small_room/
+smaller_small_room.zip

@@ -10,11 +10,12 @@ def show_images(current_time: str) -> None:
     img_list = []
     size = min(SHOW_NUMBER, len(os.listdir(img_path)))
     for i, path in enumerate(os.listdir(img_path)):
-        img = Image.open(img_path+"/"+path)
-        img_list.append(img)
+        if path.lower().endswith(('.png', '.jpg', '.jpeg')):
+            img = Image.open(img_path+"/"+path)
+            img_list.append(img)
 
-        if i >= size-1:
-            break
+            if i >= size-1:
+                break
     
     col_n = min(3,size)
     cols = st.columns(col_n)

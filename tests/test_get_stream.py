@@ -8,6 +8,8 @@ import image_pb2_grpc
 
 def display_image(image):
     img = Image.open(io.BytesIO(image.data))
+    print(image.name)
+    print(image.aux)
     ax = plt.gca()
     ax.imshow(img)
     plt.show()

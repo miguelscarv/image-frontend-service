@@ -6,6 +6,7 @@ import concurrent.futures as futures
 import grpc_reflection.v1alpha.reflection as grpc_reflect
 import os
 import time
+import json
 
 INPUT_DIR = "./extracted_zip_files/"
 OUTPUT_DIR = "./received_images/"
@@ -28,7 +29,7 @@ class ImageServer(image_pb2_grpc.ImageServerServiceServicer):
         Returns smallest new sub directory if it exists
         """
 
-        subdirs = [int(i) for i in os.listdir(self.input_dir)]
+        subdirs = [int(i) for i in os.listdir(self.input_dir) if os.path.isdir(os.path.join(self.input_dir, i))]
         iterator = filter(
             lambda x: x > self.max_input_sub_dir,
             subdirs
@@ -41,6 +42,7 @@ class ImageServer(image_pb2_grpc.ImageServerServiceServicer):
             return min(l)
 
     def GetImageStream(self, request, context):
+        has_json = False
 
         while True:
             temp = self.new_input_sub_dir()
@@ -51,16 +53,28 @@ class ImageServer(image_pb2_grpc.ImageServerServiceServicer):
             else:
                 time.sleep(DELAY)
                 #print("Sleeping - no new dirs in input")
-
+        
+        time.sleep(DELAY*2)
         new_path = self.input_dir + "/" + str(self.max_input_sub_dir)
         imgs = os.listdir(new_path)
+        
+        for img in imgs:
+            if ".json" in img:
+                has_json = True
+                with open(os.path.join(new_path, img)) as f:
+                    json_file = json.load(f)
 
         for img in imgs:
-            with open(new_path+"/"+img, "rb") as f:
-                img_bytes = f.read()
-                yield image_pb2.Image(data=img_bytes, name=img, is_last=imgs[-1]==img)
-                logging.info(f" Sent image {img}...")
-                #time.sleep(0.1)
+            if img.lower().endswith(('.png', '.jpg', '.jpeg')):
+                with open(new_path+"/"+img, "rb") as f:
+                    img_bytes = f.read()
+                    if not has_json:
+                        yield image_pb2.Image(data=img_bytes, name=img, is_last=imgs[-1]==img)
+                    else:
+                        _id = img.split(".")[0].split("_")[-1]
+                        yield image_pb2.Image(data=img_bytes, name=img, is_last=imgs[-1]==img, aux=json.dumps(json_file[_id]))
+                    logging.info(f" Sent image {img}...")
+                    #time.sleep(0.1)
 
     def PostImage(self, request, context):
 
