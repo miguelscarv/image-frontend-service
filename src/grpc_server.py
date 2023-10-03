@@ -54,9 +54,10 @@ class ImageServer(image_pb2_grpc.ImageServerServiceServicer):
                 time.sleep(DELAY)
                 #print("Sleeping - no new dirs in input")
         
-        time.sleep(DELAY*2)
+        time.sleep(10)
         new_path = self.input_dir + "/" + str(self.max_input_sub_dir)
         imgs = os.listdir(new_path)
+        logging.info(f"Number of files in folder: {len(imgs)}")
         
         for img in imgs:
             if ".json" in img:
