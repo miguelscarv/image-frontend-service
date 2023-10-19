@@ -6,7 +6,7 @@ This component launches a Streamlit frontend to vizualise ZIPed inputs (images) 
 
 The Streamlit components saves the input extracted images to `extracted_zip_files` and the gRPC server saves the output images to `received_images`. Both the input and output images are saved under a directory corresponding to the current time using unix time stamps. 
 
-When providing a `.json` file with camera intrinsics and other parameters name the images with the camera ID at the end of the file name and separate any other indentifiers with an underscore (`_`). Example: `6609_14.jpg`
+When providing a `.json` file with camera intrinsics and other parameters name the images with the camera ID at the end of the file name and separate any other indentifiers with an underscore (`_`). Example: for an image namde `6609_14.jpg`, the gRPC server will look for the key `14` in the `json` file, if it exists and stringify the value corresponding to that key.
 
 ## Usage
 
